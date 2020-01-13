@@ -1,8 +1,9 @@
 class CardsController < ApplicationController
-  def create
-    card = Card.create(user_params)
-
-    render json: card
+  before_action :authenticate, only: [:create, :index]
+  
+  def create   
+      card = Card.create(user_params)
+      render json: {card: card}
   end
 
   def index
@@ -10,10 +11,11 @@ class CardsController < ApplicationController
     render json: cards
   end
 
-
   private
 
   def user_params
-    params.require("card").permit(:name, :short_description, :text, :user_id)
+    byebug
+    params.require("card").permit(:name, :short_description, :text,).merge(user: @user)
+    
   end
 end
