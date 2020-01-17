@@ -12,7 +12,7 @@ class AuthenticationController < ApplicationController
           user_id: user.id,
           username: user.username,
         }, secret_key)
-        render json: {token: token}
+        render json: {token: token, username: user.username}
       else
         render json: {message: "Wrong Password"}, status: :unauthorized 
       end

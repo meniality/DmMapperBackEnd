@@ -10,15 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_13_024759) do
+ActiveRecord::Schema.define(version: 2020_01_15_173655) do
+
+  create_table "campaigns", force: :cascade do |t|
+    t.string "name"
+    t.string "image"
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_campaigns_on_user_id"
+  end
 
   create_table "cards", force: :cascade do |t|
     t.string "name"
     t.string "short_description"
     t.string "text"
+    t.string "image"
     t.integer "user_id", null: false
+    t.integer "campaign_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["campaign_id"], name: "index_cards_on_campaign_id"
     t.index ["user_id"], name: "index_cards_on_user_id"
   end
 
@@ -29,5 +41,7 @@ ActiveRecord::Schema.define(version: 2020_01_13_024759) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "campaigns", "users"
+  add_foreign_key "cards", "campaigns"
   add_foreign_key "cards", "users"
 end
