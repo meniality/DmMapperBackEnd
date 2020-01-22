@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_15_173655) do
+ActiveRecord::Schema.define(version: 2020_01_21_215216) do
 
   create_table "campaigns", force: :cascade do |t|
     t.string "name"
@@ -19,6 +19,17 @@ ActiveRecord::Schema.define(version: 2020_01_15_173655) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_campaigns_on_user_id"
+  end
+
+  create_table "card_relationships", force: :cascade do |t|
+    t.integer "parent_card_id"
+    t.integer "child_card_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["child_card_id", "parent_card_id"], name: "index_card_relationships_on_child_card_id_and_parent_card_id"
+    t.index ["child_card_id"], name: "index_card_relationships_on_child_card_id"
+    t.index ["parent_card_id", "child_card_id"], name: "index_card_relationships_on_parent_card_id_and_child_card_id"
+    t.index ["parent_card_id"], name: "index_card_relationships_on_parent_card_id"
   end
 
   create_table "cards", force: :cascade do |t|
@@ -42,6 +53,8 @@ ActiveRecord::Schema.define(version: 2020_01_15_173655) do
   end
 
   add_foreign_key "campaigns", "users"
+  add_foreign_key "card_relationships", "cards", column: "child_card_id"
+  add_foreign_key "card_relationships", "cards", column: "parent_card_id"
   add_foreign_key "cards", "campaigns"
   add_foreign_key "cards", "users"
 end
