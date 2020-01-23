@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :card_relationships
+  resources :card_relationships, only:[:create, :index]
   resources :campaigns, only:[:create, :show, :index, :destroy]
   resources :cards, only:[:index, :show, :create, :destroy]
   resources :users, only:[:index, :show, :create]

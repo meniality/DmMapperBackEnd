@@ -1,4 +1,5 @@
 class CardRelationshipsController < ApplicationController
+  before_action :authenticate, only: [:create, :index]
   def index
     all = CardRelationship.all
 
@@ -6,10 +7,13 @@ class CardRelationshipsController < ApplicationController
   end
 
   def create
-    newRelationship = CardRelationship.create(parent_card_id: params[:parent_card_id], child_card_id: params[:child_card_id])
-    
-
-    render json: newRelationship
+    newRelationship = CardRelationship.create(card_relationship_params)
+    render json: newRelationship, include: ["parent_card", "child_card"]
   end
 
+  private
+
+  def card_relationship_params
+    params.require("card_relationships").permit(:parent_card_id, :child_card_id)
+  end
 end
