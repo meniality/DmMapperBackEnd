@@ -1,5 +1,5 @@
 class CardRelationshipsController < ApplicationController
-  before_action :authenticate, only: [:create, :index]
+  before_action :authenticate
   def index
     all = CardRelationship.all
 
@@ -9,6 +9,14 @@ class CardRelationshipsController < ApplicationController
   def create
     newRelationship = CardRelationship.create(card_relationship_params)
     render json: newRelationship, include: ["parent_card", "child_card"]
+  end
+
+  def destroy_relationship
+    currentCardRelationship = CardRelationship.find do |relationship|
+      
+      relationship.parent_card_id == params[:card_relationships][:parent_card_id].to_i && relationship.child_card_id == params[:card_relationships][:child_card_id].to_i
+    end
+    currentCardRelationship.destroy
   end
 
   private

@@ -7,5 +7,7 @@ Rails.application.routes.draw do
   post "login", to: "authentication#login" 
   post "campaign_cards", to: "cards#campaign_cards"
   post "show_card", to: "cards#show_card"
+  patch "update_card", to: "cards#update_card"
+  post "destroy_relationship", to: "card_relationships#destroy_relationship"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

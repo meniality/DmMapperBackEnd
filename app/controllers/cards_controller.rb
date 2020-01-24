@@ -1,8 +1,8 @@
 class CardsController < ApplicationController
-  before_action :authenticate, only: [:create, :index, :campaign_cards, :show_card, :destroy, :update]
+  before_action :authenticate, only: [:create, :index, :campaign_cards, :show_card, :destroy, :update_card]
   
   def create   
-      card = Card.create(user_params)
+      card = Card.create(card_params)
       render json: card
   end
 
@@ -35,9 +35,17 @@ class CardsController < ApplicationController
     render json: campaign_cards
   end
 
+  def update_card
+    foundCard = Card.find do |card|
+      card.id == params[:card][:id].to_i && card.user.id == @user.id
+    end
+    
+    foundCard.update(card_params)
+    render json: foundCard
+  end
   private
 
-  def user_params
-    params.require("card").permit(:card_id, :campaign_id, :name, :short_description, :text, :image).merge(user: @user)
+  def card_params
+    params.require("card").permit(:id, :campaign_id, :name, :short_description, :text, :image).merge(user: @user)
   end
 end
