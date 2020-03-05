@@ -7,6 +7,7 @@ class CardRelationshipsController < ApplicationController
   end
 
   def create
+    
     newRelationship = CardRelationship.create(card_relationship_params)
     render json: newRelationship, include: ["parent_card", "child_card"]
   end
