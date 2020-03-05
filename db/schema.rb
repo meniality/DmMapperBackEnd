@@ -10,15 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_13_024759) do
+ActiveRecord::Schema.define(version: 2020_01_21_215216) do
+
+  create_table "campaigns", force: :cascade do |t|
+    t.string "name"
+    t.string "image"
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_campaigns_on_user_id"
+  end
+
+  create_table "card_relationships", force: :cascade do |t|
+    t.integer "parent_card_id"
+    t.integer "child_card_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["child_card_id", "parent_card_id"], name: "index_card_relationships_on_child_card_id_and_parent_card_id"
+    t.index ["child_card_id"], name: "index_card_relationships_on_child_card_id"
+    t.index ["parent_card_id", "child_card_id"], name: "index_card_relationships_on_parent_card_id_and_child_card_id"
+    t.index ["parent_card_id"], name: "index_card_relationships_on_parent_card_id"
+  end
 
   create_table "cards", force: :cascade do |t|
     t.string "name"
     t.string "short_description"
     t.string "text"
+    t.string "image"
     t.integer "user_id", null: false
+    t.integer "campaign_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["campaign_id"], name: "index_cards_on_campaign_id"
     t.index ["user_id"], name: "index_cards_on_user_id"
   end
 
@@ -29,5 +52,9 @@ ActiveRecord::Schema.define(version: 2020_01_13_024759) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "campaigns", "users"
+  add_foreign_key "card_relationships", "cards", column: "child_card_id"
+  add_foreign_key "card_relationships", "cards", column: "parent_card_id"
+  add_foreign_key "cards", "campaigns"
   add_foreign_key "cards", "users"
 end
