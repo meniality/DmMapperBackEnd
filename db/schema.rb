@@ -10,20 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_21_215216) do
+ActiveRecord::Schema.define(version: 2020_03_05_165715) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "campaigns", force: :cascade do |t|
     t.string "name"
     t.string "image"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_campaigns_on_user_id"
   end
 
   create_table "card_relationships", force: :cascade do |t|
-    t.integer "parent_card_id"
-    t.integer "child_card_id"
+    t.bigint "parent_card_id"
+    t.bigint "child_card_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["child_card_id", "parent_card_id"], name: "index_card_relationships_on_child_card_id_and_parent_card_id"
@@ -37,10 +40,10 @@ ActiveRecord::Schema.define(version: 2020_01_21_215216) do
     t.string "short_description"
     t.string "text"
     t.string "image"
-    t.integer "user_id", null: false
-    t.integer "campaign_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "campaign_id", null: false
     t.index ["campaign_id"], name: "index_cards_on_campaign_id"
     t.index ["user_id"], name: "index_cards_on_user_id"
   end

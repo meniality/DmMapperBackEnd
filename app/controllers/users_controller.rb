@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   def create
     user = User.create(user_params)
 
-    render json: user.id
+    render json: {username: user.id}
   end
 
   def index

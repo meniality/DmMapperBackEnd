@@ -39,7 +39,6 @@ class CardsController < ApplicationController
     foundCard = Card.find do |card|
       card.id == params[:card][:id].to_i && card.user.id == @user.id
     end
-    
     foundCard.update(card_params)
     render json: foundCard
   end
