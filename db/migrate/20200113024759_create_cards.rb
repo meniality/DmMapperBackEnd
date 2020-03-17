@@ -6,7 +6,6 @@ class CreateCards < ActiveRecord::Migration[6.0]
       t.string :text
       t.string :image
       t.references :user, null: false, foreign_key: true
-      # t.integer :campaign, null: false, foreign_key: true
       
       t.timestamps
     end
