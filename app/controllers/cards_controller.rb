@@ -18,7 +18,9 @@ class CardsController < ApplicationController
     cards = Card.select do |card|
       card.user.id == @user.id
     end
-    render json: cards, include: ["parentCards", "childCards"]
+    sortedCards = cards.sort_by! {|c| c.name}
+
+    render json: sortedCards, include: ["parentCards", "childCards"]
   end
 
   def show_card
@@ -42,6 +44,7 @@ class CardsController < ApplicationController
     foundCard.update(card_params)
     render json: foundCard
   end
+
   private
 
   def card_params
